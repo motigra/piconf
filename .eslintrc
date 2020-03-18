@@ -1,15 +1,21 @@
 {
     "env": {
-      "es6": true
+        "es6": true
     },
     "globals": {
-      "process": true
+        "process": true
     },
     "extends": ["eslint:recommended", "airbnb-base"],
     "rules": {
-      "linebreak-style": "off",
-      "import/no-dynamic-require": "warn",
-      "no-console": "off",
-      "indent": ["error", 4, { "SwitchCase": 1 }],
+        "linebreak-style": "off",
+        "import/no-dynamic-require": "off",
+        "no-console": "off",
+        "indent": ["error", 4, { "SwitchCase": 1 }],
+        "comma-dangle": "off",
+        "no-throw-literal": "off",
+        "arrow-body-style": "off",
+        "no-await-in-loop": "off",
+        "no-restricted-syntax": "off",
+        "no-param-reassign": "off"
     }
-  }
+}

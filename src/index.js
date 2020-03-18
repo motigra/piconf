@@ -3,43 +3,22 @@ const path = require('path');
 const fs = require('fs').promises;
 const inquirer = require('inquirer');
 
-/**
- * Main (async) execution flow
- */
-const main = async () => {
-    // Load the local piconfig settings file
-    const configFilePath = path.join(process.cwd(), '.piconfrc');
-    const config = require(configFilePath);
-    // Prompt user to get required information
-    const settings = await ask(config.settings);
-    // Iterate over required settings with the values received
-    for (task of settings) {
-        for (target of task.targets) {
-            // Update each file
-            const result = await replace(
-                target.file,
-                target.expression,
-                target.pattern,
-                task.value
-            );
-            // Log the swaps done
-            console.log(`in file "${result.file}" replaced strings ${JSON.stringify(result.origins)} with "${result.replacement}"`);
-        }
-    }
-};
+// Load the local piconfig settings file
+const configFilePath = path.join(process.cwd(), '.piconfrc');
+const config = require(configFilePath);
 
 /**
  * Prompts the user with a question set from the defined settings
- * @param {object} settings The `settings` property from the `.piconfrc` file 
+ * @param {object} settings The `settings` property from the `.piconfrc` file
  */
 const ask = async (settings = []) => {
     // Generate an `inquirer` question set
-    const questions = settings.map(element => {
+    const questions = settings.map((element) => {
         return {
             type: 'input',
             name: element.name,
             message: element.prompt,
-            validate: value => {
+            validate: (value) => {
                 // TODO: Add real validation
                 const pass = value.length > 0;
                 if (pass) {
@@ -52,7 +31,7 @@ const ask = async (settings = []) => {
     // Prompt user using `inquierer`
     const answers = await inquirer.prompt(questions);
     // Merge the values into the settings object
-    return settings.map(element => {
+    return settings.map((element) => {
         element.value = answers[element.name];
         return element;
     });
@@ -60,13 +39,14 @@ const ask = async (settings = []) => {
 
 /**
  * Replaces all instances of matching strings in a file
- * @param {string} file Path of file to manipulate 
- * @param {RegExp} rx A regex to search for 
+ * @param {string} file Path of file to manipulate
+ * @param {RegExp} rx A regex to search for
  * @param {string} pattern A `util.format()` compatible string to replace matches with
  * @param {string} value The string value to apply to `pattern`
  */
 const replace = async (file, rx, pattern, value) => {
-    let fileContents, matches;
+    let fileContents;
+    let matches;
     // Read the file
     try {
         fileContents = await fs.readFile(file, { encoding: 'utf8' });
@@ -99,11 +79,37 @@ const replace = async (file, rx, pattern, value) => {
     };
 };
 
+/**
+ * Main (async) execution flow
+ */
+const main = async () => {
+    // Prompt user to get required information
+    const settings = await ask(config.settings);
+    // Iterate over required settings with the values received
+    for (const task of settings) {
+        for (const target of task.targets) {
+            // Update each file
+            const result = await replace(
+                target.file,
+                target.expression,
+                target.pattern,
+                task.value
+            );
+            // Log the swaps done
+            console.log(
+                `in file "${result.file}" replaced strings ${JSON.stringify(
+                    result.origins
+                )} with "${result.replacement}"`
+            );
+        }
+    }
+};
+
 main()
     .then(() => {
         console.log('Done!');
     })
-    .catch(e => {
+    .catch((e) => {
         console.error('Failed!');
         console.error(e);
     });
