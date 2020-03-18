@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Post (NPM) Install Configurator",
   "main": "./src/index.js",
+  "bin": {
+    "piconfig": "./src/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/motigra/piconf"
