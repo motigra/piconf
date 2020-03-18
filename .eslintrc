@@ -1,0 +1,15 @@
+{
+    "env": {
+      "es6": true
+    },
+    "globals": {
+      "process": true
+    },
+    "extends": ["eslint:recommended", "airbnb-base"],
+    "rules": {
+      "linebreak-style": "off",
+      "import/no-dynamic-require": "warn",
+      "no-console": "off",
+      "indent": ["error", 4, { "SwitchCase": 1 }],
+    }
+  }

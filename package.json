@@ -1,0 +1,26 @@
+{
+  "name": "piconfig",
+  "version": "1.0.0",
+  "description": "Post (NPM) Install Configurator",
+  "main": "./src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/motigra/piconf"
+  },
+  "scripts": {
+    "eslint": "eslint . --ext .js"
+  },
+  "author": "Moti Granovsky",
+  "contributors": [
+    "Moti Granovsky"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1"
+  },
+  "dependencies": {
+    "inquirer": "^7.1.0"
+  }
+}
