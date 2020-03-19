@@ -1,10 +1,10 @@
 # PIConfig - Post Install Configuration
 
 ___
-**This project is a WIP and is not ready for use. Sorry!**
+**This project is a WIP and has known issues. Sorry!**
 ___
 
-A utility for `npmjs` projects to customize files with values from a user prompt before/after running `npm install`.
+A utility for `npmjs` projects to customize files with values from a user prompt after running `npm install`.
 
 > For example, a project using a REST API may require a token to be set in some `.json` file, which needs to be set. Using PIConf, when someone clones and installs your package they will be prompted for their token and it will be automatically updated in all relevant locations in code/configuration files.
 
@@ -14,7 +14,7 @@ A utility for `npmjs` projects to customize files with values from a user prompt
 1. Add the script `"postinstall": "piconfig"` to your `package.json`'s `scripts` array
 1. Install this project as a DevDependency: `npm install --save-dev motigra/piconf#wip`
 
-Now when `npm install` is done and on any subsequent run, the user will be prompted with questions based on your configuration, the files will be updated and a report will be presented via the console.
+Now when `npm install` is done on any subsequent run, the user will be prompted with questions based on your configuration, the files will be updated and a report will be presented via the console.
 
 *Note:* The utility can also be invoked directly, without `npm install`, using `npm run postinstall`.
 
@@ -79,16 +79,29 @@ module.exports = {
             "targets": [
                 {
                     "file": "./test.html",
-                    "expression": /<script\s+src="https?:\/\/\S+\/js\/frame\.js"\s*>/igm,
+                    "expression": /<script\s+src="https?:\/\/\S+\/js\/someLib\.js"\s*>/igm,
                     "pattern": "<script src=\"%s/js/someLib.js\">"
                 },
                 {
                     "file": "./test.json",
                     "expression": /https?:\/\/\S+\/js\/someLib\.js/igm,
-                    "pattern": "%s/js/frame.js"
+                    "pattern": "%s/js/someLib.js"
                 }
             ]
         }
     ]
 }
 ```
+
+## TODO
+
+ - [x] Prepare for use as an NPM CLI utility
+ - [ ] Improve error handling
+ - [ ] Add testing
+ - [ ] Add validation pattern support
+ - [ ] Add regex examples to readme
+ - [ ] Prevent Node.js experimental API warning
+ - [ ] Add contribution guidelines
+ - [ ] Add support for intro message
+ - [ ] Make prompts sexy
+ - [ ] Upload to NPMJS
