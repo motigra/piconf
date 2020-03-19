@@ -10,11 +10,13 @@ A utility for `npmjs` projects to customize files with values from a user prompt
 
 ## Setting up
 
-1. Clone and install this project as a DevDependency
 1. Create a file called `.piconfrc` in your project's root directory (See [Configuration](#configuration))
 1. Add the script `"postinstall": "piconfig"` to your `package.json`'s `scripts` array
+1. Install this project as a DevDependency: `npm install --save-dev motigra/piconf#wip`
 
-Now when `npm install` is run, the user will be prompted with questions based on your configuration, the files will be updated and a report will be presented via the console.
+Now when `npm install` is done and on any subsequent run, the user will be prompted with questions based on your configuration, the files will be updated and a report will be presented via the console.
+
+*Note:* The utility can also be invoked directly, without `npm install`, using `npm run postinstall`.
 
 ## Configuration
 
