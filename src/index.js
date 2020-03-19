@@ -5,7 +5,7 @@ const path = require('path');
 const fs = require('fs').promises;
 const inquirer = require('inquirer');
 
-// Load the local piconfig settings file
+// Load the local piconfrc settings file
 const configFilePath = path.join(process.cwd(), '.piconfrc');
 const config = require(configFilePath);
 
@@ -21,12 +21,11 @@ const ask = async (settings = []) => {
             name: element.name,
             message: element.prompt,
             validate: (value) => {
-                // TODO: Add real validation
-                const pass = value.length > 0;
+                const pass = element.format ? element.format.test(value) : true;
                 if (pass) {
                     return true;
                 }
-                return `Please enter a valid ${element.type}`;
+                return 'Please enter a valid input';
             }
         };
     });
@@ -87,6 +86,10 @@ const replace = async (file, rx, pattern, value) => {
 const main = async () => {
     // Prompt user to get required information
     const settings = await ask(config.settings);
+    // Show intro message if there is one
+    if (config.intro && config.intro.length) {
+        console.log(config.intro);
+    }
     // Iterate over required settings with the values received
     for (const task of settings) {
         for (const target of task.targets) {
