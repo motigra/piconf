@@ -1,4 +1,4 @@
-# PIConfig - Post Install Configuration
+# PIConf - Post Install Configuration
 
 ___
 **This project is a WIP and has known issues. Sorry!**
@@ -24,7 +24,9 @@ Each project will have a different configuration based on the prompts required a
 
 ``` js
 module.exports = {
+    "intro": "hi, thanks for installing my module!",
     "settings": [
+        // ...
     ]
 }
 ```
@@ -33,6 +35,7 @@ module.exports = {
 
 | Name       | Type       | Required | Description               |
 |------------|------------|----------|---------------------------|
+| `intro`    | `string`   | No       | Text to display on start  |
 | `settings` | `object[]` | **Yes**  | See [Settings](#settings) |
 
 
@@ -46,6 +49,7 @@ Each value in this array represents a prompt for the user which generates a valu
 |-----------|------------|----------|------------------------------|
 | `name`    | `string`   | **Yes**  | A unique name for the prompt |
 | `prompt`  | `string`   | **Yes**  | The prompt message           |
+| `format`  | `RegExp`   | No       | Validation Regex             |
 | `targets` | `object[]` | **Yes**  | See [Targets](#targets)      |
 
 ### Targets
@@ -72,10 +76,12 @@ These are the settings you could use:
 
 ``` js
 module.exports = {
+    "intro": "Hi and thanks for using my module! Before you get started, we need to configure a few things:",
     "settings": [
         {
             "name": "server-uri",
             "prompt": "Please input your server's URI, including the protocol and port. For example: 'https://localhost:3000'",
+            "format": /^https?:\/\/([\w-]+\.?)+(\:\d{1,5})?$/i,
             "targets": [
                 {
                     "file": "./test.html",
@@ -90,7 +96,7 @@ module.exports = {
             ]
         }
     ]
-}
+};
 ```
 
 ## TODO
@@ -98,10 +104,13 @@ module.exports = {
  - [x] Prepare for use as an NPM CLI utility
  - [ ] Improve error handling
  - [ ] Add testing
- - [ ] Add validation pattern support
- - [ ] Add regex examples to readme
+ - [x] Add validation pattern support
  - [ ] Prevent Node.js experimental API warning
  - [ ] Add contribution guidelines
- - [ ] Add support for intro message
- - [ ] Make prompts sexy
+ - [x] Add support for intro message
  - [ ] Upload to NPMJS
+
+## Nice-to-haves
+
+ - [ ] Add regex examples to readme
+ - [ ] Make prompts sexy
